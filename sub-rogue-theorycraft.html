@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Subtlety Rogue PvP theorycraft: Season 2 builder interactions, PvP modifiers, Shadow damage changes and three experiments. Self-contained research report.">
+  <title>Subtlety Rogue • PvP Theorycraft Lab | Jax</title>
+  <style>
+    :root { --bg:#0b0b13; --surface:#151522; --surface2:#1d1c2d; --surface3:#28263a; --line:#343249; --ink:#f4f0fa; --muted:#aea8c1; --dim:#827d99; --violet:#ab89ff; --violet2:#795be0; --cyan:#80dde4; --gold:#ebc98a; --green:#91d7aa; --red:#f1a1a7; --shadow:0 20px 65px rgba(0,0,0,.25); --radius:18px; }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);font:15px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+    body:before {content:"";position:fixed;z-index:-1;inset:0;background:radial-gradient(circle at 82% -12%,rgba(130,75,233,.15),transparent 40%),radial-gradient(circle at 2% 45%,rgba(58,101,124,.07),transparent 40%);pointer-events:none}
+    a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline} button,input{font:inherit} button{cursor:pointer} button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+    .layout{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh} .sidebar{border-right:1px solid var(--line);position:sticky;top:0;height:100vh;padding:32px 18px 22px;background:rgba(17,16,27,.93);display:flex;flex-direction:column;gap:28px}
+    .brand{display:flex;gap:11px;align-items:center;padding:0 11px}.brandmark{height:39px;width:39px;border:1px solid #66538b;border-radius:11px;background:linear-gradient(145deg,#322148,#171626);display:grid;place-items:center;box-shadow:inset 0 0 0 4px rgba(166,134,224,.04)} .brandmark svg{width:26px;height:26px}.brand-title{font-weight:850;font-size:14px;line-height:1.18;letter-spacing:.05em}.brand-sub{color:var(--dim);font-size:11px;margin-top:3px;letter-spacing:.16em;text-transform:uppercase}
+    .nav-eyebrow{color:var(--dim);text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:.17em;margin:8px 11px 10px}.nav-list{display:grid;gap:3px}.nav-list a{color:var(--muted);display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:13px;text-decoration:none;transition:background .15s,color .15s}.nav-list a .num{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;color:var(--dim)}.nav-list a.active,.nav-list a:hover{background:#29243b;color:var(--ink)}.nav-list a.active .num{color:var(--violet)}
+    .sidebar-footer{margin-top:auto;color:var(--dim);font-size:11px;padding:14px 10px;border-top:1px solid var(--line);line-height:1.7}.sidebar-footer strong{color:var(--muted);font-weight:600}
+    main{width:100%;max-width:1360px;margin:0 auto;padding:34px clamp(22px,5vw,76px) 90px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:19px;border-bottom:1px solid var(--line)}.topbar-left{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}.small-orb{width:7px;height:7px;background:var(--violet);border-radius:50%;box-shadow:0 0 15px var(--violet)}.actions{display:flex;align-items:center;gap:9px}.btn{border:1px solid #46405f;color:var(--ink);background:#221e32;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 13px;font-size:12px;font-weight:750;transition:transform .14s,background .14s}.btn:hover{background:#332a4b;transform:translateY(-1px)}.btn.primary{background:#7754d0;border-color:#8964db}.btn.primary:hover{background:#8c68e7}.btn svg{width:15px;height:15px}
+    .hero{padding:56px 0 34px;display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px;align-items:center;position:relative}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.22em;font-weight:800;color:var(--violet);margin-bottom:13px}.hero h1{font-size:clamp(42px,5vw,70px);line-height:1.01;letter-spacing:-.053em;max-width:780px;margin:0;font-weight:850}.hero h1 em{display:block;color:var(--violet);font-style:normal}.hero-desc{max-width:690px;color:var(--muted);font-size:16px;line-height:1.75;margin:24px 0 22px}.hero-art{width:210px;height:210px;position:relative;display:grid;place-items:center;margin:auto}.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;inset:7%;border:1px solid rgba(171,137,255,.34)}.hero-art:before{box-shadow:0 0 60px rgba(139,87,233,.1),inset 0 0 55px rgba(139,87,233,.1)}.hero-art:after{inset:24%;border:1px dashed rgba(171,137,255,.38);transform:rotate(26deg)}.hero-art svg{position:relative;z-index:1;width:132px;height:132px;filter:drop-shadow(0 0 17px rgba(170,110,255,.45))}.meta{display:flex;gap:9px;flex-wrap:wrap}.pill{padding:5px 10px;border-radius:99px;border:1px solid #4c4165;background:#241f35;color:#dacaf7;font-size:11px;letter-spacing:.03em;font-weight:750}.pill.outline{background:transparent;color:var(--muted);border-color:var(--line)}.pill.gold{border-color:#756043;background:#30271e;color:var(--gold)}
+    .callout{border:1px solid #4a3c66;background:linear-gradient(107deg,#251e3b,#161723 76%);border-radius:var(--radius);padding:23px 26px;display:grid;grid-template-columns:3px 1fr;gap:19px;box-shadow:var(--shadow)}.callout .stripe{background:linear-gradient(var(--violet),var(--cyan));border-radius:9px}.callout p{margin:4px 0 0;color:#d4cde2}.callout strong{color:white}
+    section{scroll-margin-top:24px;margin-top:70px}.section-head{margin-bottom:25px}.overline{color:var(--violet);text-transform:uppercase;font-weight:800;letter-spacing:.18em;font-size:11px;margin-bottom:9px}.section-head h2{font-size:clamp(26px,3vw,35px);letter-spacing:-.035em;line-height:1.2;margin:0 0 10px}.section-head p{color:var(--muted);max-width:790px;margin:0;line-height:1.8}.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{background:linear-gradient(160deg,var(--surface) 45%,#12131d);border:1px solid var(--line);border-radius:var(--radius);padding:23px;box-shadow:var(--shadow)}.card h3{margin:0 0 12px;font-size:17px;line-height:1.4;letter-spacing:-.025em}.card p{color:var(--muted);margin:0;font-size:13px;line-height:1.75}.metric{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:29px;font-weight:800;letter-spacing:-.07em;margin:6px 0 9px}.metric.violet{color:var(--violet)}.metric.cyan{color:var(--cyan)}.metric.gold{color:var(--gold)}.card .mini{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.13em;font-weight:750;margin-bottom:8px}
+    .note{background:#211d2f;border:1px solid #3b334f;border-radius:12px;color:#c8c0d7;font-size:12px;padding:13px 16px;line-height:1.65;margin-top:16px}.note strong{color:#f6ebff}.note.caution{background:#28231e;border-color:#4d4135;color:#dfcfbd}.note.caution strong{color:var(--gold)}
+    .table-shell{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:600px}thead{background:#211f30;color:#c7b6eb;text-transform:uppercase;font-size:10px;letter-spacing:.14em}th{text-align:left;padding:15px 18px;font-weight:850}td{padding:15px 18px;border-top:1px solid #2e2b41;font-size:13px;vertical-align:middle}tbody tr:hover{background:#1e1b2b}td:first-child{font-weight:750;color:#f4f0fa}td:not(:first-child){color:#c6bed4}.value{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--cyan);font-weight:700}.status{border-radius:20px;padding:3px 8px;background:#242d2e;border:1px solid #3a565a;color:#94d5d7;font-size:10px;white-space:nowrap;font-weight:750}.status.hypo{background:#2b2435;border-color:#59456b;color:#d0b1f1}.status.model{background:#302b22;border-color:#68593e;color:#ebce92}
+    .lab{display:grid;grid-template-columns:290px minmax(0,1fr);gap:14px}.control-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}.control-panel h3,.result-panel h3{font-size:16px;margin:0 0 22px}.field{margin-bottom:25px}.field label{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;color:#dfd7e8;margin-bottom:12px}.field output{color:var(--cyan);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.field input[type=range]{width:100%;accent-color:var(--violet);height:6px;cursor:pointer}.range-endpoints{display:flex;justify-content:space-between;color:var(--dim);font-size:11px;margin-top:3px}.toggle{display:flex;gap:12px;align-items:center;margin:17px 0;font-size:13px;color:#dfd7e8;cursor:pointer}.toggle input{accent-color:var(--violet);width:17px;height:17px}.result-panel{background:linear-gradient(150deg,#1b1a2a,#13141e);border:1px solid var(--line);border-radius:var(--radius);padding:24px}.bar-row{margin-bottom:27px}.bar-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;font-size:13px}.bar-label strong{font-weight:760}.bar-label output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:16px;font-weight:800}.bar-track{height:20px;background:#29263a;border:1px solid #3b3652;border-radius:6px;overflow:hidden}.bar-fill{height:100%;width:0;transition:width .18s}.bar-fill.backstab{background:linear-gradient(90deg,#5c6ead,#92b2f0)}.bar-fill.gloomblade{background:linear-gradient(90deg,#7252b9,#c49dff)}.winning{border:1px solid #49405d;background:#211d32;border-radius:12px;padding:15px;font-size:13px;color:#d8d0e6}.winning strong{color:white}.formula{font:12px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);padding:14px;border:1px dashed #433d58;border-radius:10px;margin-top:18px;overflow:auto}.formula b{color:var(--cyan);font-weight:650}.breakpoint{color:var(--violet);font-weight:850}
+    .exp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.experiment{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:23px;display:flex;flex-direction:column;gap:15px}.experiment.featured{border-color:#8061bd;box-shadow:0 0 0 1px rgba(150,115,223,.16),var(--shadow);background:linear-gradient(140deg,#271f3c 0%,#171623 58%)}.exp-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.letter{font-size:13px;font-weight:900;color:#e9dcff;display:grid;place-items:center;width:36px;height:36px;border:1px solid #7963a7;background:#42345e;border-radius:11px}.exp-type{color:var(--dim);font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.experiment h3{font-size:20px;line-height:1.24;letter-spacing:-.03em;margin:0}.experiment p{margin:0;color:var(--muted);font-size:13px;line-height:1.75}.exp-list{margin:0;padding:0 0 0 17px;color:#cfc6df;font-size:12px;line-height:1.8}.exp-list li{padding-left:3px;margin:5px 0}.exp-bottom{border-top:1px solid var(--line);padding-top:14px;margin-top:auto}.exp-bottom b{display:block;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}.exp-bottom span{display:block;color:var(--muted);font-size:12px;line-height:1.6}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}.decay-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}.chart-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.chart-title h3{font-size:16px;margin:0}.big-val{font-size:29px;font-weight:850;color:var(--violet);letter-spacing:-.05em;margin:12px 0 0}.big-val span{font-size:12px;letter-spacing:normal;color:var(--muted);font-weight:600}.svg-chart{display:block;width:100%;height:auto;max-height:220px;margin:15px 0 8px}.chart-axis{font:11px system-ui,sans-serif;fill:#9089a5}.formula-list{display:grid;gap:12px}.formula-item{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:15px}.formula-item b{display:block;font-size:13px;margin-bottom:4px}.formula-item span{font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--cyan)}.formula-item p{font-size:12px;color:var(--muted);margin:5px 0 0}
+    .protocol{counter-reset:test;display:grid;gap:10px}.test{display:flex;gap:16px;align-items:flex-start;padding:17px 20px;background:var(--surface);border:1px solid var(--line);border-radius:13px}.test-num{flex:none;width:28px;height:28px;border-radius:8px;border:1px solid #604c84;background:#302540;color:#ccb3ff;display:grid;place-items:center;font:700 12px ui-monospace,monospace}.test strong{display:block;font-size:13px}.test p{font-size:12px;color:var(--muted);margin:3px 0 0;line-height:1.7}
+    .string-wrap{background:#10101a;border:1px solid #37314c;border-radius:11px;padding:16px;margin:12px 0 15px;overflow-wrap:anywhere;font:12px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;color:#e4d6ff;user-select:all;letter-spacing:.015em}.export-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.export-head h3{margin:0;font-size:17px}.muted{color:var(--muted)}.tiny{font-size:11px;color:var(--dim)}.source-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.source-links a{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);padding:9px 12px;border-radius:8px;color:var(--muted);font-size:12px}.source-links a:hover{background:var(--surface2);color:var(--ink);text-decoration:none}.footer{border-top:1px solid var(--line);margin-top:76px;padding-top:24px;display:flex;justify-content:space-between;gap:15px;color:var(--dim);font-size:11px}.toast{position:fixed;right:23px;bottom:23px;z-index:10;border:1px solid #7562a0;background:#302642;color:#fff;padding:11px 16px;border-radius:10px;box-shadow:var(--shadow);font-size:13px;opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+    @media(max-width:1110px){.columns,.exp-grid{grid-template-columns:1fr 1fr}.exp-grid .experiment:last-child{grid-column:1/-1}.hero-art{width:170px;height:170px}.hero-art svg{width:113px;height:113px}}
+    @media(max-width:900px){.layout{display:block}.sidebar{position:static;height:auto;display:block;padding:14px 18px;border-right:0;border-bottom:1px solid var(--line)}.sidebar .brand{display:inline-flex;padding:0}.sidebar nav{margin-top:12px}.nav-eyebrow,.sidebar-footer{display:none}.nav-list{display:flex;overflow-x:auto;gap:3px;scrollbar-width:none}.nav-list a{white-space:nowrap;padding:7px 10px}.nav-list a .num{display:none}main{padding:20px 25px 60px}.hero{padding-top:40px;grid-template-columns:1fr 140px}.hero-art{width:140px;height:140px}.hero-art svg{width:94px;height:94px}.lab{grid-template-columns:1fr}.control-panel{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.control-panel h3{grid-column:1/-1;margin-bottom:0}.field{margin-bottom:0}.toggle{margin:6px 0}.result-panel{padding:24px}.columns{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:690px){main{padding:15px 17px 50px}.topbar{align-items:start}.topbar-left{font-size:11px}.topbar .actions{justify-content:flex-end}.topbar .btn{padding:8px 10px}.topbar .btn .label-extra{display:none}.hero{grid-template-columns:1fr;padding:37px 0 30px}.hero h1{font-size:46px}.hero-art{display:none}.hero-desc{font-size:14px}.columns,.two-col,.exp-grid{grid-template-columns:1fr}.exp-grid .experiment:last-child{grid-column:auto}.callout{padding:18px 16px}.lab .control-panel{display:block}.control-panel h3{margin-bottom:22px}.field{margin-bottom:23px}section{margin-top:56px}.section-head h2{font-size:28px}.card,.experiment{padding:20px}.footer{display:block}.footer span{display:block;margin:6px 0}}
+    @media print { :root{--bg:#fff;--surface:#fff;--surface2:#f8f7fb;--line:#ddd;--ink:#191625;--muted:#575268;--dim:#787184;--violet:#604499;--cyan:#176f78;--gold:#86672e}.layout{display:block}.sidebar,.topbar .actions,.no-print,.toast{display:none!important} main{max-width:none;padding:0 10px}.topbar{padding:0 0 10px}.hero{padding:25px 0 20px}.hero-art{display:none}.hero h1{font-size:44px}.callout,.card,.experiment,.decay-card,.control-panel,.result-panel,.table-shell,.test,.formula-item{background:#fff!important;box-shadow:none!important;border-color:#ccc!important;break-inside:avoid}.callout p,.card p,.experiment p,.test p,.exp-list{color:#444!important}.pill{color:#333;border-color:#ccc;background:#fff}.lab{grid-template-columns:260px 1fr}.columns,.exp-grid{grid-template-columns:repeat(3,1fr)}section{margin-top:35px}.source-links a{color:#333}.footer{margin-top:30px}thead{background:#eee}td{border-color:#ddd}td:not(:first-child){color:#333}.string-wrap{background:#fafafa;color:#333;border-color:#ccc}body{color:#191625;background:#fff}.note{background:#f9f7fb;color:#333;border-color:#ddd}.metric.violet,.metric.cyan,.metric.gold{color:#604499}.hero h1 em{color:#604499} }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M10 8L21 25L16 42L28 30L24 20Z" stroke="#C4A4FF" stroke-width="3" stroke-linejoin="round"/><path d="M39 6L25 23L28 31L36 16Z" fill="#8E6CD3"/><path d="M10 9L31 38" stroke="#E2D1FF" stroke-width="2"/></svg></div><div><div class="brand-title">SUBTLETY / LAB</div><div class="brand-sub">Jax · PvP theorycraft</div></div></div>
+    <nav aria-label="Report sections"><div class="nav-eyebrow">Research dossier</div><div class="nav-list">
+      <a href="#overview" class="active"><span class="num">01</span> Overview</a>
+      <a href="#modifiers"><span class="num">02</span> PvP modifiers</a>
+      <a href="#builder"><span class="num">03</span> Builder simulator</a>
+      <a href="#experiments"><span class="num">04</span> Build hypotheses</a>
+      <a href="#lingering"><span class="num">05</span> Lingering Shadow</a>
+      <a href="#protocol"><span class="num">06</span> Testing plan</a>
+      <a href="#export"><span class="num">07</span> Talent export</a>
+    </div></nav>
+    <div class="sidebar-footer"><strong>Research snapshot</strong><br>October 13, 2026<br>Patch 12.1.5 / Midnight S2<br><br>Self-contained. No external scripts, fonts or assets.</div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div class="topbar-left"><span class="small-orb"></span> THEORYCRAFT BRIEFING <span aria-hidden="true">/</span> <span>JAX–TICHONDRIUS</span></div>
+      <div class="actions no-print">
+        <button class="btn" type="button" id="shareBtn" title="Share this HTML file or its current hosted URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V3m0 0L7 8m5-5l5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg><span>Share</span></button>
+        <button class="btn primary" type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 15h12v6H6z"/></svg><span>Print<span class="label-extra"> / PDF</span></span></button>
+      </div>
+    </header>
+
+    <div class="hero" id="overview">
+      <div>
+        <div class="eyebrow">Arena innovation / first-principles research</div>
+        <h1>Subtlety Rogue <em>damage lab.</em></h1>
+        <p class="hero-desc">A hypothesis-driven look at builder damage, Shadow interactions, and the Season 2 tier set after the 12.1.5 damage correction. Optimized for testing new arena builds, not copying leaderboard talent choices.</p>
+        <div class="meta"><span class="pill">Patch 12.1.5</span><span class="pill">Season 2 · 2pc / 4pc</span><span class="pill gold">Exploratory / Not a proven BiS build</span><span class="pill outline">13 OCT 2026</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 150 150" fill="none"><path d="M23 24L80 96L61 132L91 110L87 83Z" fill="#9274D8" fill-opacity=".25" stroke="#BC9AFF" stroke-width="3"/><path d="M126 17L75 87L90 107L107 65Z" fill="#9274D8" fill-opacity=".4" stroke="#D5BCFF" stroke-width="3"/><path d="M25 25L114 125" stroke="#E4D5FF" stroke-width="4" stroke-linecap="round"/><path d="M122 22L40 131" stroke="#9B7DE7" stroke-width="4" stroke-linecap="round"/><path d="M65 74L76 62L86 77L74 89Z" fill="#E7D4FF"/></svg></div>
+    </div>
+
+    <div class="callout"><div class="stripe"></div><div><strong>Research thesis:</strong><p>Gloomblade could become an exceptionally efficient source of pressure outside Shadow Dance because it inherits the Season 2 builder bonus and bypasses armor. But the Shadow-damage double-dip correction may favor <strong>physical Backstab as a trigger for secondary Shadow events</strong>. The strongest build is whichever produces the most <em>total damage per useful arena GCD</em> without compromising Dance kill windows.</p></div></div>
+
+    <section aria-label="Key numbers">
+      <div class="section-head"><div class="overline">The three numbers that matter</div><h2>The tooltip is not the arena tooltip.</h2><p>These are the central modifier assumptions from the preceding research. For damage calculations, bonuses are expressed as effective PvP bonuses rather than raw PvE set text.</p></div>
+      <div class="columns">
+        <article class="card"><div class="mini">Season 2 · Two-piece</div><div class="metric violet">+50%</div><h3>Builder damage in PvP</h3><p>The advertised +100% Backstab/Gloomblade damage is reduced by a 0.5 PvP multiplier. Energy savings model at −5 rather than −10.</p></article>
+        <article class="card"><div class="mini">Unshakeable Drive</div><div class="metric cyan">+30%</div><h3>Next builder after Mark</h3><p>Its advertised +50% builder bonus is reduced by a 0.6 PvP multiplier. Whether it stacks multiplicatively with the set bonus is a test target.</p></article>
+        <article class="card"><div class="mini">Season 2 · Four-piece</div><div class="metric gold">15%</div><h3>Modeled initial bonus</h3><p>50% initial Lingering Shadow × 60% finisher effectiveness × 0.5 PvP multiplier. Decays over 18 seconds in the simplified model.</p></article>
+      </div>
+      <div class="note caution"><strong>Important:</strong> These numbers reproduce our October 13 research snapshot. Not every mechanic is validated against live post-hotfix combat logs. Values, stacking order and spell attribution should be verified before treating this report as a final optimized build.</div>
+    </section>
+
+    <section id="modifiers">
+      <div class="section-head"><div class="overline">01 / Mechanics</div><h2>PvP modifiers &amp; coefficient reference</h2><p>The table separates raw spell or tier data from effective arena values. Direct builder comparisons require armor, positioning, and secondary damage events to be modeled independently.</p></div>
+      <div class="table-shell table-scroll"><table><thead><tr><th>Effect</th><th>Base / PvE</th><th>Effective PvP</th><th>Research status</th></tr></thead><tbody>
+        <tr><td>2pc · Backstab / Gloomblade damage</td><td>+100%</td><td><span class="value">+50%</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>2pc · Builder Energy reduction</td><td>−10 Energy</td><td><span class="value">−5 Energy</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>2pc · Shuriken Storm damage</td><td>+60%</td><td><span class="value">+30%</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>2pc · Shuriken Storm Energy reduction</td><td>−5 Energy</td><td><span class="value">−2.5 (modeled)</span></td><td><span class="status model">Calculation</span></td></tr>
+        <tr><td>4pc · Lingering Shadow to finishers</td><td>60% effectiveness</td><td><span class="value">30% effectiveness</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>Unshakeable Drive · builder bonus</td><td>+50%</td><td><span class="value">+30%</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>Goremaw's Bite · finisher mirror</td><td>20% repeat</td><td><span class="value">10% repeat</span></td><td><span class="status">Reported modifier</span></td></tr>
+        <tr><td>The Rotten · next builders</td><td>Talent value varies by effect</td><td><span class="value">~+21% cited</span></td><td><span class="status hypo">Requires validation</span></td></tr>
+      </tbody></table></div>
+      <div class="table-shell table-scroll" style="margin-top:15px"><table><thead><tr><th>Builder / spender</th><th>Base coefficient</th><th>PvP multiplier</th><th>Key implication</th></tr></thead><tbody>
+        <tr><td>Backstab</td><td>107.31% AP (+20% from behind)</td><td><span class="value">1.74×</span></td><td>Physical, armor applies</td></tr>
+        <tr><td>Gloomblade</td><td>123% AP</td><td><span class="value">1.74×</span></td><td>Shadow, bypasses armor</td></tr>
+        <tr><td>Eviscerate</td><td>37.325% AP / CP</td><td><span class="value">1.375×</span></td><td>Finisher damage is central to Mastery value</td></tr>
+        <tr><td>Secret Technique clone</td><td>28.08% AP / CP</td><td><span class="value">0.77×</span></td><td>Distinct event; don't conflate with builder direct hit</td></tr>
+      </tbody></table></div>
+      <div class="note"><strong>Patch nuance:</strong> Blizzard's Shadow-damage correction targeted bonuses that were applied more than once to secondary Shadow damage. The announced 14% global damage increase was compensation, not evidence of a net +14% performance gain. The comparison below intentionally excludes blanket tuning and derived shadow events.</div>
+    </section>
+
+    <section id="builder">
+      <div class="section-head"><div class="overline">02 / Interactive model</div><h2>Backstab vs. Gloomblade</h2><p>A transparent model of <strong>direct builder damage</strong> expressed as percent of Attack Power. Adjust physical mitigation and rear positioning to see how quickly Gloomblade overtakes Backstab. All Shadow clone / trigger damage is excluded on purpose.</p></div>
+      <div class="lab">
+        <div class="control-panel">
+          <h3>Scenario inputs</h3>
+          <div class="field"><label for="armor">Physical damage mitigated <output id="armorOut">20%</output></label><input id="armor" type="range" min="0" max="50" step="1" value="20"><div class="range-endpoints"><span>0%</span><span>50%</span></div></div>
+          <label class="toggle"><input id="behind" type="checkbox" checked> Backstab from behind (+20%)</label>
+          <label class="toggle"><input id="tier" type="checkbox" checked> Season 2 two-piece active</label>
+          <div class="note" style="margin-top:25px">Armor mitigation is entered as an <em>effective reduction</em>, not armor rating. Real targets, armor penetration, and other multipliers will change the result.</div>
+        </div>
+        <div class="result-panel">
+          <div class="chart-title"><h3>Direct ability damage</h3><span class="pill outline">% of Attack Power</span></div>
+          <div class="bar-row" style="margin-top:26px"><div class="bar-label"><strong>Backstab · Physical</strong><output id="backstabOut">—</output></div><div class="bar-track"><div id="backstabBar" class="bar-fill backstab"></div></div></div>
+          <div class="bar-row"><div class="bar-label"><strong>Gloomblade · Shadow</strong><output id="gloombladeOut">—</output></div><div class="bar-track"><div id="gloombladeBar" class="bar-fill gloomblade"></div></div></div>
+          <div class="winning" id="winner" aria-live="polite"></div>
+          <div class="formula" id="formula">Backstab = 107.31 × positional × 1.74 × tier × (1 − physical mitigation)<br>Gloomblade = 123 × 1.74 × tier</div>
+        </div>
+      </div>
+      <div class="note"><strong>Core threshold:</strong> with the two-piece and positional Backstab bonus enabled, Gloomblade exceeds Backstab's <em>direct</em> damage above roughly <span class="breakpoint">4.5% effective physical mitigation</span>. That does <strong>not</strong> prove Gloomblade wins total triggered damage or damage per Energy.</div>
+    </section>
+
+    <section id="experiments">
+      <div class="section-head"><div class="overline">03 / Original build hypotheses</div><h2>Three paths worth testing</h2><p>Not a ranked tier list. These experiments isolate the distinctive interactions created by the new set and the damage correction. The first is the primary candidate; the others are mechanical controls or alternate ways to exploit the tier set.</p></div>
+      <div class="exp-grid">
+        <article class="experiment featured"><div class="exp-top"><span class="letter">A</span><span class="exp-type">Primary candidate</span></div><h3>Deathstalker<br>Gloomblade spike</h3><p>Try to convert a naturally weaker between-Dance period into meaningful damage through Gloomblade, Mark consumption, the 2pc and Unshakeable Drive.</p><ul class="exp-list"><li>Season 2 two-piece is foundational.</li><li>Gloomblade + Deathstalker's Mark.</li><li>Test Unshakeable Drive's builder bonus.</li><li>Verify stacking order, energy efficiency and clone inheritance.</li><li>Keep Dance / Secret Technique kill window intact where possible.</li></ul><div class="exp-bottom"><b>Failure mode</b><span>Better builder tooltips but weaker total damage per GCD, or lost points in essential burst talents.</span></div></article>
+        <article class="experiment"><div class="exp-top"><span class="letter">B</span><span class="exp-type">Mechanics control</span></div><h3>Physical Backstab<br>Shadow triggers</h3><p>Check whether physical triggering attacks now realize more secondary Shadow damage after the double-dip fix than equivalent Shadow builders.</p><ul class="exp-list"><li>Match the tier, uptime and target as closely as possible.</li><li>Separate builder and Shadow Blades event damage.</li><li>Attribute clone, Goremaw's Bite and Lingering damage individually.</li><li>Compare total damage rather than builder tooltip values.</li></ul><div class="exp-bottom"><b>Failure mode</b><span>Armor and positional constraints overwhelm any gain from corrected trigger interactions.</span></div></article>
+        <article class="experiment"><div class="exp-top"><span class="letter">C</span><span class="exp-type">Timing hypothesis</span></div><h3>Double Dance<br>Lingering overlap</h3><p>Test whether spacing cooldowns to carry Lingering Shadow into the next Dance creates an unusually threatening finisher window.</p><ul class="exp-list"><li>Season 2 four-piece and Lingering Shadow.</li><li>Investigate persistence into a second Dance.</li><li>Identify the actual reset / refresh behavior.</li><li>Measure opportunity cost of altered Dance timing.</li></ul><div class="exp-bottom"><b>Failure mode</b><span>Buff falls off, refresh behavior blocks useful overlap, or extra delay ruins the actual arena kill setup.</span></div></article>
+      </div>
+    </section>
+
+    <section id="lingering">
+      <div class="section-head"><div class="overline">04 / Timing interaction</div><h2>Lingering Shadow's finisher window</h2><p>A simplified, linearly decaying model of the four-piece's additional Shadow damage on finishers after Shadow Dance. This illustrates <em>when</em> value may exist; it doesn't establish that buffs stack across overlapping Dance windows.</p></div>
+      <div class="two-col">
+        <div class="decay-card">
+          <div class="chart-title"><h3>Four-piece effect after Dance</h3><span class="pill outline">Illustrative</span></div>
+          <div class="big-val"><output id="lingeringVal">10.0%</output> <span>modeled finisher bonus</span></div>
+          <svg class="svg-chart" viewBox="0 0 520 230" role="img" aria-label="Line chart showing Lingering Shadow four-piece bonus falling from 15 percent at zero seconds to zero percent after 18 seconds">
+            <defs><linearGradient id="fillDecay" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#A886EE" stop-opacity=".25"/><stop offset="1" stop-color="#A886EE" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="#353148" stroke-width="1"><line x1="46" y1="24" x2="500" y2="24"/><line x1="46" y1="85" x2="500" y2="85"/><line x1="46" y1="146" x2="500" y2="146"/><line x1="46" y1="207" x2="500" y2="207"/></g>
+            <g class="chart-axis"><text x="5" y="28">15%</text><text x="12" y="89">10%</text><text x="19" y="150">5%</text><text x="25" y="211">0%</text><text x="42" y="224">0s</text><text x="192" y="224">6s</text><text x="340" y="224">12s</text><text x="485" y="224">18s</text></g>
+            <path d="M46 24L500 207L46 207Z" fill="url(#fillDecay)"/>
+            <path d="M46 24L500 207" stroke="#AA85F2" stroke-width="3.5" stroke-linecap="round"/>
+            <line id="chartMarker" x1="197.3" y1="24" x2="197.3" y2="207" stroke="#80DDE4" stroke-width="1.6" stroke-dasharray="4 4"/>
+            <circle id="chartDot" cx="197.3" cy="85" r="5.6" fill="#8FE5E5" stroke="#142125" stroke-width="3"/>
+          </svg>
+          <div class="field" style="margin-bottom:0"><label for="seconds">Seconds since end of Dance <output id="secondsOut">6s</output></label><input id="seconds" type="range" min="0" max="18" step="1" value="6"><div class="range-endpoints"><span>Immediately</span><span>18 seconds</span></div></div>
+        </div>
+        <div class="decay-card"><h3 style="margin:0 0 17px;font-size:16px">Separate the components</h3><div class="formula-list">
+          <div class="formula-item"><b>Base lingering buff</b><span>50% Shadow bonus immediately after Dance</span><p>Decays across the modeled 18-second window.</p></div>
+          <div class="formula-item"><b>Four-piece finisher application</b><span>× 0.60 set effectiveness × 0.50 PvP modifier</span><p>Initial modeled value is 15%, not +50% on Eviscerate.</p></div>
+          <div class="formula-item"><b>Overlap hypothesis</b><span>Unknown persistence + refresh / snapshot rules</span><p>Requires live logs showing how the effect behaves when another Dance starts.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="protocol">
+      <div class="section-head"><div class="overline">05 / Experimental design</div><h2>A combat-log protocol that can answer it</h2><p>Because builder damage can trigger secondary Shadow events, ordinary overall-DPS comparisons are too noisy to answer the mechanical question. Use identical gear and a consistent target, change one talent or effect at a time, and inspect the individual events.</p></div>
+      <div class="protocol">
+        <div class="test"><span class="test-num">01</span><div><strong>Baseline Backstab with 2pc</strong><p>Record direct hits, Energy spent, combo points, target mitigation and secondary Shadow events. Repeat from behind, front and against a different armor class.</p></div></div>
+        <div class="test"><span class="test-num">02</span><div><strong>Swap only the builder to Gloomblade</strong><p>Keep hero talents and the rest of the offensive tree unchanged if possible. Compare damage per GCD and Energy, not just noncrit direct damage.</p></div></div>
+        <div class="test"><span class="test-num">03</span><div><strong>Introduce Mark / Unshakeable Drive</strong><p>Measure a builder following Deathstalker's Mark consumption. Determine whether bonuses add or multiply and whether triggered events inherit them.</p></div></div>
+        <div class="test"><span class="test-num">04</span><div><strong>Isolate Shadow Blades &amp; clone events</strong><p>Aggregate damage caused by one builder GCD: direct ability hit + Shadow Blades + Goremaw's Bite or other relevant triggered events. Attribute by source, not only spell school.</p></div></div>
+        <div class="test"><span class="test-num">05</span><div><strong>Test Lingering Shadow timeline</strong><p>Sample finishers at several delays after Dance; then open a second Dance before the original effect expires. Check persistence, refreshing and damage attribution.</p></div></div>
+        <div class="test"><span class="test-num">06</span><div><strong>Confirm arena practicality</strong><p>Assess uptime, dangerous GCDs between stuns, defensives forced and the six-second kill-window damage. Don't trade meaningful kill pressure for harmless damage.</p></div></div>
+      </div>
+      <div class="note"><strong>Primary outcome:</strong> total attributable damage per useful GCD and per Energy, under live PvP modifiers. <strong>Secondary outcome:</strong> whether any sustained-pressure gain is worth the talent cost and changes to your control / burst sequence.</div>
+    </section>
+
+    <section id="export">
+      <div class="section-head"><div class="overline">06 / Your starting point</div><h2>Original talent export &amp; references</h2><p>Preserved exactly as supplied. The export is a Subtlety (spec 261) loadout; this document does not claim to have decoded its individual node choices or generated a new valid in-game import string.</p></div>
+      <div class="card">
+        <div class="export-head"><h3>Jax · Current talent string</h3><button class="btn no-print" type="button" id="copyTalent">Copy export</button></div>
+        <div class="string-wrap" id="talentString">CUQA5HmDzx68KWyrW/8Y781L7DgZ2mBAAAAAmtZmZZiZZbmZmZMDMzMzsMmthZmllhBzMGwMGAAAAzwMsYWmxsMDjFGWmZbahWmNmZYmZmBzYA</div>
+        <p class="tiny" style="margin:0">To test experiments A/B/C, change only the specified talents first. Keep arena utility and the existing burst package as stable as possible.</p>
+      </div>
+      <div class="source-links"><a href="https://worldofwarcraft.blizzard.com/en-us/worldsoul/us/armory/character/tichondrius/jax/" target="_blank" rel="noopener noreferrer">↗ Jax Armory</a><a href="https://www.wowhead.com/search?q=Gloomblade" target="_blank" rel="noopener noreferrer">↗ Gloomblade / Wowhead</a><a href="https://www.wowhead.com/search?q=Lingering+Shadow" target="_blank" rel="noopener noreferrer">↗ Lingering Shadow / Wowhead</a><a href="https://www.wowhead.com/search?q=Unshakeable+Drive" target="_blank" rel="noopener noreferrer">↗ Unshakeable Drive / Wowhead</a></div>
+      <div class="note"><strong>Provenance:</strong> This is a structured, offline-readable presentation of the analysis from this conversation, dated October 13, 2026. Links are research starting points, not in-document citations to exact historical tooltip states. No ongoing updates or real-time data are embedded.</div>
+    </section>
+
+    <footer class="footer"><span>SUBTLETY / LAB · Independent PvP theorycraft · Jax–Tichondrius</span><span>One HTML file · no dependencies · prepared 13 Oct 2026</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const armor = $('armor'), behind = $('behind'), tier = $('tier');
+  const fmt = n => n.toFixed(1) + '% AP';
+  function updateBuilders(){
+    const mitig = Number(armor.value) / 100;
+    const positional = behind.checked ? 1.2 : 1;
+    const tierBonus = tier.checked ? 1.5 : 1;
+    const backstab = 107.31 * positional * 1.74 * tierBonus * (1-mitig);
+    const gloomblade = 123 * 1.74 * tierBonus;
+    const max = Math.max(370,backstab,gloomblade)*1.025;
+    $('armorOut').textContent = armor.value + '%';
+    $('backstabOut').textContent = fmt(backstab);
+    $('gloombladeOut').textContent = fmt(gloomblade);
+    $('backstabBar').style.width = Math.max(0,100*backstab/max) + '%';
+    $('gloombladeBar').style.width = Math.max(0,100*gloomblade/max) + '%';
+    const delta = Math.abs(backstab-gloomblade);
+    if(delta<.05) $('winner').innerHTML = '<strong>Even direct damage</strong> under these assumptions. Secondary Shadow events and Energy economics decide the result.';
+    else $('winner').innerHTML = '<strong>'+(gloomblade>backstab?'Gloomblade':'Backstab')+' wins on direct damage by '+fmt(delta)+'.</strong> The full spell-event comparison could still favor the other builder.';
+    const threshold = (1-123/(107.31*positional))*100;
+    $('formula').innerHTML = 'Backstab = 107.31 × '+positional.toFixed(1)+' × 1.74 × '+tierBonus.toFixed(1)+' × (1 − '+mitig.toFixed(2)+')<br>Gloomblade = 123 × 1.74 × '+tierBonus.toFixed(1)+'<br><b>Break-even mitigation: '+(threshold<=0?'Gloomblade wins even at 0%':threshold.toFixed(2)+'%')+'</b>';
+  }
+  [armor,behind,tier].forEach(el=>el.addEventListener('input',updateBuilders)); updateBuilders();
+  function updateDecay(){
+    const sec=Number($('seconds').value), val=15*Math.max(0,1-sec/18);
+    $('secondsOut').textContent=sec+'s';$('lingeringVal').textContent=val.toFixed(1)+'%';
+    const x=46+(454*sec/18),y=24+(183*sec/18);
+    $('chartMarker').setAttribute('x1',x);$('chartMarker').setAttribute('x2',x);
+    $('chartDot').setAttribute('cx',x);$('chartDot').setAttribute('cy',y);
+  }
+  $('seconds').addEventListener('input',updateDecay);updateDecay();
+  let toastTimer;
+  function toast(message){const node=$('toast');node.textContent=message;node.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.classList.remove('show'),2700)}
+  async function copyText(value){
+    try{await navigator.clipboard.writeText(value);return true;}catch(e){
+      try{const a=document.createElement('textarea');a.value=value;a.style.position='fixed';a.style.opacity='0';document.body.append(a);a.select();const ok=document.execCommand('copy');a.remove();return ok;}catch{return false;}
+    }
+  }
+  $('copyTalent').addEventListener('click',async()=>toast((await copyText($('talentString').textContent.trim()))?'Talent export copied.':'Copy failed; select the export text to copy it.'));
+  $('shareBtn').addEventListener('click',async()=>{
+    const url=location.href;
+    if(location.protocol==='file:'){
+      toast('To share: send this .html file, or upload it to a website.');
+      return;
+    }
+    if(navigator.share){try{await navigator.share({title:document.title,url});return;}catch(e){if(e.name==='AbortError')return;}}
+    toast((await copyText(url))?'Page link copied.':'Copy the current URL to share.');
+  });
+  const navLinks = [...document.querySelectorAll('.nav-list a')];
+  if('IntersectionObserver' in window){
+    const targets=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const io=new IntersectionObserver(entries=>{
+      const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
+      if(!visible.length)return;
+      const id='#'+visible[0].target.id;
+      navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id));
+    },{rootMargin:'-12% 0px -68% 0px',threshold:0});
+    targets.forEach(t=>io.observe(t));
+  }
+})();
+</script>
+</body>
+</html>
